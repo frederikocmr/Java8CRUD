@@ -10,7 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class MainView {
 
     public static void main(String[] args) {
-        //Criando Modelo e View
+        
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (UnsupportedLookAndFeelException ex) {
