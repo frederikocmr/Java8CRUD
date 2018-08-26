@@ -1,50 +1,93 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import model.AlunoModel;
+import model.DisciplinaModel;
 
 /**
  *
  * @author frede
  */
 public class ProcessaArquivoController {
+    public int seqNumero, seqDigitos;
 
-    public static String leitura(String textoDoArquivo) {
+    public static String leitura(BufferedReader bufferArquivo) {
         ArrayList<AlunoModel> ap = new ArrayList();
+        ValidadoresController validador = new ValidadoresController();
+        String linhaArquivo = null;
+        
+        try {
+            while ((linhaArquivo = bufferArquivo.readLine()) != null) {
 
-        String v[] = textoDoArquivo.split(";"); 
-        //JOAO_________02366549180;JOSE DA SILVA12345678901;
+                AlunoModel aluno = new AlunoModel();
+                
+                int matricula = Integer.parseInt(linhaArquivo.substring(0, 4));
+                String nome = linhaArquivo.substring(4, 29).trim();
+                String cpf  = validador.validaCpf(linhaArquivo.substring(29,40));
+                String sexo = validador.validaSexo(linhaArquivo.substring(40, 41));
+                String data = validador.validaDataNasc(linhaArquivo.substring(41, 49));
+                
+                aluno.setMatricula(matricula);
+                aluno.setNome(nome);
+                aluno.setCpf(cpf);
+                aluno.setSexo(sexo);
+                aluno.setDataNascimento(data);
+                
+                //Adicionado disciplina...
+                String disciplinas = linhaArquivo.substring(49);
+                ArrayList<DisciplinaModel> ad = new ArrayList();
+                
+                int posicao = 0;
+                while (posicao < disciplinas.length()) {
+                    DisciplinaModel disciplina =  new DisciplinaModel();
+                    disciplina.setCodigo(disciplinas.substring(posicao, posicao+4));
+                    
+                    ad.add(disciplina);
+                    posicao += 7;
+                }
+                aluno.setDisciplinas(ad);
 
-        for (int i = 0; i < v.length; i++) {
+                ap.add(aluno);
+            }
 
-            String nome = v[i].substring(0, 13);
-            String cpf = v[i].substring(13);
-
-            AlunoModel p = new AlunoModel();
-
-            p.setNome(nome);
-
-            p.setCpf(cpf);
-
-            ap.add(p);
-
+        } catch (IOException ex) {
+            System.out.println("Problemas ao ler: " + linhaArquivo);
         }
 
         return ProcessaArquivoController.montaDadosImpressao(ap);
     }
 
     public static String montaDadosImpressao(ArrayList<AlunoModel> pessoas) {
-        String impressao = "Relacao de Pessoas Cadastradas:" + "\n";
-        impressao += "==============================" + "\n";
+        String impressao = "RELAÇÃO DE ALUNOS DE OUTROS PÓLOS DE ENSINO" + "\n\n";
+        impressao += "Seq. - Matricula - Nome - CPF - Sexo - Dt. Nasc.\n\n";
 
         for (int i = 0; i < pessoas.size(); i++) {
             AlunoModel p = new AlunoModel();
             p = pessoas.get(i);
-            impressao += "Nome=" + p.getNome() + " - " + p.getCpf() + "\n";
-            impressao += "------------------------------" + "\n";
+
+            impressao += "XXXX";
+            impressao += " - " + p.getMatricula();
+            impressao += " - " + p.getNome();
+            impressao += " - " + p.getCpf();
+            impressao += " - " + p.getSexo();
+            impressao += " - " + p.getDataNascimento();
+            
+            
+            impressao += "\nDISCIPLINAS:";
+
+            for (DisciplinaModel disciplina: p.getDisciplinas()) {
+                impressao += " "+disciplina.getCodigo();
+            }
+            
+            impressao += "\n\n";
+                   
         }
-        
+
         return impressao;
 
     }
+    
 }

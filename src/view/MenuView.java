@@ -21,10 +21,10 @@ import javax.swing.JTextArea;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 /**
@@ -37,6 +37,7 @@ public class MenuView extends JPanel
     protected JButton btnCarregaArquivo, btnMostrarAlunos;
     protected JTextArea log;
     private String dadosProcessados;
+    ProcessaArquivoController processa;
 
     public MenuView() {
         log = new JTextArea(8, 45);
@@ -70,6 +71,8 @@ public class MenuView extends JPanel
         painel.setPreferredSize(new Dimension(400, 200));
 
         add(painel);
+        
+        processa = new ProcessaArquivoController();
 
     }
 
@@ -79,22 +82,31 @@ public class MenuView extends JPanel
             try {
                 int valoresInseridos = 0;
                 while (valoresInseridos < 2) {
+                    
                     String valorSeq = JOptionPane.showInputDialog("Escolha o valor inicial da sequência:");
+                    processa.seqNumero = Integer.parseInt(valorSeq);
+                    
                     if (valorSeq.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Nada inserido!");
                     } else {
                         valoresInseridos++;
-                        log.append("Valor inicial seq escolhida: " + valorSeq + "\n");
+                        
+                        log.append("LOG: Valor inicial seq escolhida: " + valorSeq + "\n");
+                        
                         String qtdDigitos = JOptionPane.showInputDialog("Escolha a quantidade de digitos da sequência:");
+                        processa.seqDigitos = Integer.parseInt(qtdDigitos);
+                        
                         if (qtdDigitos.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Nada inserido!");
                         } else {
                             valoresInseridos++;
-                            log.append("Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
+                            
+                            log.append("LOG: Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
                             log.append(dadosProcessados); //temporário
                         }
                     }
                 }
+                
             } catch (Exception ex) {
                 System.out.println("Janela valores foi fechada pelo usuário.");
                 ex.printStackTrace();
@@ -107,12 +119,15 @@ public class MenuView extends JPanel
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = escolherArquivo.getSelectedFile();
                 try {
-                    ProcessaArquivoController processa = new ProcessaArquivoController();
-                    String textoDoArquivo = new Scanner(new FileReader(file.getAbsolutePath())).useDelimiter("\\A").next();
-
-                    log.append("Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
-                    dadosProcessados = processa.leitura(textoDoArquivo);
-                    log.append("Arquivo processado com sucesso. \n\n");
+                    
+                    //String textoDoArquivo = new Scanner(new FileReader(file.getAbsolutePath())).useDelimiter("\\A").next();
+                    
+                    
+                    BufferedReader bufferArquivo = new BufferedReader(new FileReader(file));
+                    
+                    log.append("LOG: Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
+                    dadosProcessados = processa.leitura(bufferArquivo);
+                    log.append("LOG: Arquivo processado com sucesso. \n\n");
                     
                     
 
