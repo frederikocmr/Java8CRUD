@@ -1,2 +1,15 @@
-# SGBD1
-Aplicação Java para leitura de arquivos seguindo padrão MVC.
+# Aplicação básica em Java para leitura de arquivos seguindo padrão MVC.
+Criada com intuito de revisar toda a parte básica do Java 8. Seguindo o padrão MVC, esta aplicação visa processar um arquivo com dados de alunos de uma instituição, e então alocá-los em memória através da utilização de collections (ArrayList) para que então estes dados sejam estruturados em objetos e mostrados em tela.
+Este projeto contém as seguintes funcionalidades:
+- Utilização de interface para escolha de arquivo, inserção e visualização de dados;
+- Padrão MVC, sendo separado por pacotes;
+- Orientado a Objetos seguindo boas práticas de programação;
+- Leitura e processamento de arquivos;
+- Validador de CPF e Datas;
+- Transformação de Strings de um nome em UPPERCASE para capitalização apenas das primeiras letras do nome;
+- Criador de sequencia com quantidade de dígitos inserida pelo usário;
+- Interface - utilização dos componentes do Java Swing: JOptionPane, JScrollPane, JTextArea, JButton, JFileChooser e outros.
+
+
+Este projeto foi feito usando o Java 8 e a IDE Eclipse.
+
