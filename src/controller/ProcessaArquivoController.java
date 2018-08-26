@@ -12,10 +12,11 @@ import model.DisciplinaModel;
  * @author frede
  */
 public class ProcessaArquivoController {
-    public int seqNumero, seqDigitos;
+    public static int  seqNumero, seqDigitos;
+    public static ArrayList<AlunoModel> ap;
 
-    public static String leitura(BufferedReader bufferArquivo) {
-        ArrayList<AlunoModel> ap = new ArrayList();
+    public static void leitura(BufferedReader bufferArquivo) {
+        ap = new ArrayList();
         ValidadoresController validador = new ValidadoresController();
         String linhaArquivo = null;
         
@@ -25,7 +26,7 @@ public class ProcessaArquivoController {
                 AlunoModel aluno = new AlunoModel();
                 
                 int matricula = Integer.parseInt(linhaArquivo.substring(0, 4));
-                String nome = linhaArquivo.substring(4, 29).trim();
+                String nome = validador.validaNome(linhaArquivo.substring(4, 29).trim());
                 String cpf  = validador.validaCpf(linhaArquivo.substring(29,40));
                 String sexo = validador.validaSexo(linhaArquivo.substring(40, 41));
                 String data = validador.validaDataNasc(linhaArquivo.substring(41, 49));
@@ -57,7 +58,6 @@ public class ProcessaArquivoController {
             System.out.println("Problemas ao ler: " + linhaArquivo);
         }
 
-        return ProcessaArquivoController.montaDadosImpressao(ap);
     }
 
     public static String montaDadosImpressao(ArrayList<AlunoModel> pessoas) {
@@ -68,7 +68,7 @@ public class ProcessaArquivoController {
             AlunoModel p = new AlunoModel();
             p = pessoas.get(i);
 
-            impressao += "XXXX";
+            impressao += verificaSequencia(seqNumero+i);
             impressao += " - " + p.getMatricula();
             impressao += " - " + p.getNome();
             impressao += " - " + p.getCpf();
@@ -90,4 +90,9 @@ public class ProcessaArquivoController {
 
     }
     
+    private static String verificaSequencia(int contador){
+       
+        return String.format("%0" + seqDigitos +"d", contador);
+    }
+
 }

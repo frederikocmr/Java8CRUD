@@ -71,7 +71,7 @@ public class MenuView extends JPanel
         painel.setPreferredSize(new Dimension(400, 200));
 
         add(painel);
-        
+
         processa = new ProcessaArquivoController();
 
     }
@@ -82,34 +82,39 @@ public class MenuView extends JPanel
             try {
                 int valoresInseridos = 0;
                 while (valoresInseridos < 2) {
-                    
+
                     String valorSeq = JOptionPane.showInputDialog("Escolha o valor inicial da sequência:");
-                    processa.seqNumero = Integer.parseInt(valorSeq);
-                    
+                    if (Integer.parseInt(valorSeq) >= 1 && Integer.parseInt(valorSeq) <= 99) {
+                        processa.seqNumero = Integer.parseInt(valorSeq);
+                    } else {
+                        valorSeq = "";
+                        JOptionPane.showMessageDialog(null, "Valor deve estar entre 1 e 99!");
+                    }
+
                     if (valorSeq.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Nada inserido!");
+                        JOptionPane.showMessageDialog(null, "Nada foi inserido!");
                     } else {
                         valoresInseridos++;
-                        
+
                         log.append("LOG: Valor inicial seq escolhida: " + valorSeq + "\n");
-                        
+
                         String qtdDigitos = JOptionPane.showInputDialog("Escolha a quantidade de digitos da sequência:");
                         processa.seqDigitos = Integer.parseInt(qtdDigitos);
-                        
+
                         if (qtdDigitos.isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Nada inserido!");
+                            JOptionPane.showMessageDialog(null, "Nada foi inserido!");
                         } else {
                             valoresInseridos++;
-                            
+
                             log.append("LOG: Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
-                            log.append(dadosProcessados); //temporário
+                            log.append(ProcessaArquivoController.montaDadosImpressao(processa.ap));
                         }
                     }
                 }
-                
+
             } catch (Exception ex) {
-                System.out.println("Janela valores foi fechada pelo usuário.");
-                ex.printStackTrace();
+                System.out.println("Janela valores foi fechada pelo usuário ou algum erro ocorreu na validação...");
+                //ex.printStackTrace();
             }
         } else if (e.getSource() == btnCarregaArquivo) {
 
@@ -119,17 +124,13 @@ public class MenuView extends JPanel
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = escolherArquivo.getSelectedFile();
                 try {
-                    
+
                     //String textoDoArquivo = new Scanner(new FileReader(file.getAbsolutePath())).useDelimiter("\\A").next();
-                    
-                    
                     BufferedReader bufferArquivo = new BufferedReader(new FileReader(file));
-                    
+
                     log.append("LOG: Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
-                    dadosProcessados = processa.leitura(bufferArquivo);
+                    processa.leitura(bufferArquivo);
                     log.append("LOG: Arquivo processado com sucesso. \n\n");
-                    
-                    
 
                     //verificar lógica pois preciso montar o arquivo de acordo com o que foi informado na dialog. 
                     //Talvez não precisa voltar a string dele aqui e criar outro metodo para invocar a leitura com
