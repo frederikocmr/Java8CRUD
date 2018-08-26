@@ -3,11 +3,11 @@ Criada com intuito de revisar toda a parte básica do Java 8. Seguindo o padrão
 Este projeto contém as seguintes funcionalidades:
 - Utilização de interface para escolha de arquivo, inserção e visualização de dados;
 - Padrão MVC, sendo separado por pacotes;
-- Orientado a Objetos seguindo boas práticas de programação;
+- Utilizando os conceitos de orientação a objetos e do uso de camadas;
 - Leitura e processamento de arquivos;
 - Validador de CPF e Datas;
 - Transformação de Strings de um nome em UPPERCASE para capitalização apenas das primeiras letras do nome;
-- Criador de sequencia com quantidade de dígitos inserida pelo usário;
+- Criador de sequencia com quantidade de dígitos inserida pelo usuário;
 - Interface - utilização dos componentes do Java Swing: JOptionPane, JScrollPane, JTextArea, JButton, JFileChooser e outros.
 
 
