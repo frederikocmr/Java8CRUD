@@ -8,7 +8,6 @@ import controller.ProcessaArquivoController;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
-import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -39,7 +38,6 @@ public class MenuView extends JPanel
 
     public MenuView() {
         log = new JTextArea(8, 45);
-        log.setMargin(new Insets(5, 5, 5, 5));
         log.setEditable(false);
 
         log.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -120,8 +118,6 @@ public class MenuView extends JPanel
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = escolherArquivo.getSelectedFile();
                 try {
-
-                    //String textoDoArquivo = new Scanner(new FileReader(file.getAbsolutePath())).useDelimiter("\\A").next();
                     BufferedReader bufferArquivo = new BufferedReader(new FileReader(file));
 
                     log.append("LOG: Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
