@@ -1,3 +1,7 @@
+/*
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
+ */
 package controller;
 
 import java.io.BufferedReader;
@@ -9,7 +13,7 @@ import model.DisciplinaModel;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar
  */
 public class ProcessaArquivoController {
     public static int  seqNumero, seqDigitos;
@@ -37,7 +41,6 @@ public class ProcessaArquivoController {
                 aluno.setSexo(sexo);
                 aluno.setDataNascimento(data);
                 
-                //Adicionado disciplina...
                 String disciplinas = linhaArquivo.substring(49);
                 ArrayList<DisciplinaModel> ad = new ArrayList();
                 
@@ -60,15 +63,13 @@ public class ProcessaArquivoController {
 
     }
 
-    public static String montaDadosImpressao(ArrayList<AlunoModel> pessoas) {
+    public static String montaDadosImpressao(ArrayList<AlunoModel> alunos) {
         String impressao = "RELAÇÃO DE ALUNOS DE OUTROS PÓLOS DE ENSINO" + "\n\n";
         impressao += "Seq. - Matricula - Nome - CPF - Sexo - Dt. Nasc.\n\n";
+        int numSeq = 0;
+        for ( AlunoModel p : alunos) {
 
-        for (int i = 0; i < pessoas.size(); i++) {
-            AlunoModel p = new AlunoModel();
-            p = pessoas.get(i);
-
-            impressao += verificaSequencia(seqNumero+i);
+            impressao += verificaSequencia(seqNumero+numSeq);
             impressao += " - " + p.getMatricula();
             impressao += " - " + p.getNome();
             impressao += " - " + p.getCpf();
@@ -77,13 +78,14 @@ public class ProcessaArquivoController {
             
             
             impressao += "\nDISCIPLINAS:";
-
-            for (DisciplinaModel disciplina: p.getDisciplinas()) {
-                impressao += " "+disciplina.getCodigo();
-            }
+            
+            impressao = p.getDisciplinas().stream()
+                    .map((disciplina) -> " "+disciplina.getCodigo())
+                    .reduce(impressao, String::concat);
             
             impressao += "\n\n";
-                   
+            numSeq++;
+            
         }
 
         return impressao;

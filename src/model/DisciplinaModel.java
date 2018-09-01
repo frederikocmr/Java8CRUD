@@ -1,9 +1,12 @@
-
+/*
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
+ */
 package model;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar 
  */
 public class DisciplinaModel {
 

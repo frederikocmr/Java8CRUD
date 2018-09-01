@@ -1,12 +1,14 @@
-
+/*
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
+ */
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar 
  */
 public class AlunoModel {
     

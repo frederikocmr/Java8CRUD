@@ -1,17 +1,20 @@
+/*
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
+ */
 package controller;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar 
  */
 public class ValidadoresController {
 
-    private static final int[] pesoCpf = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+    private static final int[] PESOCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
     public ValidadoresController() {
     }
@@ -68,8 +71,8 @@ public class ValidadoresController {
             return false;
         }
 
-        Integer digito1 = calcularDigito(cpf.substring(0, 9), pesoCpf);
-        Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, pesoCpf);
+        Integer digito1 = calcularDigito(cpf.substring(0, 9), PESOCPF);
+        Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, PESOCPF);
         return cpf.equals(cpf.substring(0, 9) + digito1.toString() + digito2.toString());
     }
 }

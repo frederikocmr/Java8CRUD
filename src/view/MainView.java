@@ -1,3 +1,7 @@
+/*
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
+ */
 package view;
 
 import javax.swing.UIManager;
@@ -5,7 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar
  */
 public class MainView {
 
@@ -13,18 +17,11 @@ public class MainView {
         
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        } catch (InstantiationException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+        } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
+           // ex.printStackTrace();
         }
 
-        MenuView menu = new MenuView();
-        menu.criarJanela();
+        MenuView.criarJanela();
 
     }
 

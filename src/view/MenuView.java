@@ -1,13 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2018, Frederiko Cesar Moreira Ribeiro
+ * GitHub: https://github.com/frederikocmr
  */
 package view;
 
 import controller.ProcessaArquivoController;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,15 +29,13 @@ import javax.swing.JFileChooser;
 
 /**
  *
- * @author frede
+ * @author Frederiko Cesar
  */
 public class MenuView extends JPanel
         implements ActionListener {
 
     protected JButton btnCarregaArquivo, btnMostrarAlunos;
     protected JTextArea log;
-    private String dadosProcessados;
-    ProcessaArquivoController processa;
 
     public MenuView() {
         log = new JTextArea(8, 45);
@@ -72,8 +70,6 @@ public class MenuView extends JPanel
 
         add(painel);
 
-        processa = new ProcessaArquivoController();
-
     }
 
     @Override
@@ -85,7 +81,7 @@ public class MenuView extends JPanel
 
                     String valorSeq = JOptionPane.showInputDialog("Escolha o valor inicial da sequência:");
                     if (Integer.parseInt(valorSeq) >= 1 && Integer.parseInt(valorSeq) <= 99) {
-                        processa.seqNumero = Integer.parseInt(valorSeq);
+                        ProcessaArquivoController.seqNumero = Integer.parseInt(valorSeq);
                     } else {
                         valorSeq = "";
                         JOptionPane.showMessageDialog(null, "Valor deve estar entre 1 e 99!");
@@ -99,7 +95,7 @@ public class MenuView extends JPanel
                         log.append("LOG: Valor inicial seq escolhida: " + valorSeq + "\n");
 
                         String qtdDigitos = JOptionPane.showInputDialog("Escolha a quantidade de digitos da sequência:");
-                        processa.seqDigitos = Integer.parseInt(qtdDigitos);
+                        ProcessaArquivoController.seqDigitos = Integer.parseInt(qtdDigitos);
 
                         if (qtdDigitos.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Nada foi inserido!");
@@ -107,12 +103,12 @@ public class MenuView extends JPanel
                             valoresInseridos++;
 
                             log.append("LOG: Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
-                            log.append(ProcessaArquivoController.montaDadosImpressao(processa.ap));
+                            log.append(ProcessaArquivoController.montaDadosImpressao(ProcessaArquivoController.ap));
                         }
                     }
                 }
 
-            } catch (Exception ex) {
+            } catch (HeadlessException | NumberFormatException ex) {
                 System.out.println("Janela valores foi fechada pelo usuário ou algum erro ocorreu na validação...");
                 //ex.printStackTrace();
             }
@@ -129,12 +125,9 @@ public class MenuView extends JPanel
                     BufferedReader bufferArquivo = new BufferedReader(new FileReader(file));
 
                     log.append("LOG: Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
-                    processa.leitura(bufferArquivo);
+                    ProcessaArquivoController.leitura(bufferArquivo);
                     log.append("LOG: Arquivo processado com sucesso. \n\n");
 
-                    //verificar lógica pois preciso montar o arquivo de acordo com o que foi informado na dialog. 
-                    //Talvez não precisa voltar a string dele aqui e criar outro metodo para invocar a leitura com
-                    //os parametros do usuario de sequencia...
                 } catch (IOException ex) {
                     System.out.println("Problemas ao acessar: " + file.getAbsolutePath());
                 }
