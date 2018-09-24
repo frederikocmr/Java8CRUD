@@ -10,5 +10,5 @@ Este projeto contém as seguintes funcionalidades:
 - Criador de sequencia com quantidade de dígitos inserida pelo usuário;
 - Interface - utilização dos componentes do Java Swing: JOptionPane, JScrollPane, JTextArea, JButton, JFileChooser e outros.
 
-Este projeto é destinado a processar informações de alunos de um polo de ensino cujo as informações serão enviadas através de arquivo texto, feito usando o Java 8 e a IDE Eclipse.
+Este projeto é destinado a processar informações de alunos de um polo de ensino cujo as informações serão enviadas através de arquivo texto, feito usando o Java 8 e a IDE NetBeans.
 
