@@ -19,8 +19,10 @@ import persistence.AlunoDAO;
 public class ProcessaArquivoController {
     public static int  seqNumero, seqDigitos;
     public static ArrayList<AlunoModel> ap;
+    public static AlunoDAO alunoDAO;
 
     public static void leitura(BufferedReader bufferArquivo) {
+        alunoDAO = new AlunoDAO();
         ap = new ArrayList();
         ValidadoresController validador = new ValidadoresController();
         String linhaArquivo = null;
@@ -61,13 +63,14 @@ public class ProcessaArquivoController {
         } catch (IOException ex) {
             System.out.println("Problemas ao ler: " + linhaArquivo);
         }
+        alunoDAO.setAlunos(ap);
 
     }
 
-    public static String montaDadosImpressao(ArrayList<AlunoModel> alunos) {
-        AlunoDAO alunoDAO = new AlunoDAO();
-        alunos = alunoDAO.getTodosAlunos();
-        
+    public static String montaDadosImpressao() {
+        alunoDAO = new AlunoDAO();
+        ArrayList<AlunoModel> alunos = alunoDAO.getTodosAlunos();
+       
         String impressao = "RELAÇÃO DE ALUNOS DE OUTROS PÓLOS DE ENSINO" + "\n\n";
         impressao += "Seq. - Matricula - Nome - CPF - Sexo - Dt. Nasc.\n\n";
         int numSeq = 0;

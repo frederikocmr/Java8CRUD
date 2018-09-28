@@ -18,10 +18,12 @@ public class Conexao {
 
     public Conexao() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/sgbd2?serverTimezone=UTC&useSSL=false";
-            con = DriverManager.getConnection(url, "root", "20141002802573");
-            st = con.createStatement();
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                String url = "jdbc:mysql://localhost:3306/sgbd2?serverTimezone=UTC&useSSL=false";
+                con = DriverManager.getConnection(url, "root", "20141002802573");
+                st = con.createStatement();    
+            
+            
 
         } catch (Exception ex) {
             System.err.println("Erro no connect BD: " + ex);
@@ -42,29 +44,31 @@ public class Conexao {
     }
 
     public boolean executarInsercao(String tabela, String[] campos, String[] valores) {
+        boolean retorno = false;
         try {
             String query = " INSERT INTO " + tabela + "(";
-            String interrogacao = "";
+            
             for (String s : campos) {
                 query += s + ",";
-                interrogacao += "?,";
             }
-
-            query += (query.substring(0, query.length() - 1)) + ")";
-            interrogacao += ((interrogacao.substring(0, interrogacao.length() - 1))) + ")";
-
+            
+            query = (query.substring(0, query.length() - 1)) + ")";
+            query += " VALUES (";
+            
+            for (String v : valores) {
+                query += v + ",";
+            }
+            
+            query = ((query.substring(0, query.length() - 1))) + ")";
+            
             PreparedStatement ps = con.prepareStatement(query);
 
-            for (int i = 0; i < valores.length; i++) {
-                ps.setString(i + 1, valores[i]);
-            }
-
-            ps.execute();
+            retorno = ps.execute();
         } catch (Exception ex) {
             System.err.println("Erro no BD: " + ex);
         }
 
-        return true;
+        return retorno;
     }
 
 }

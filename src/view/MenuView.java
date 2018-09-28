@@ -101,7 +101,7 @@ public class MenuView extends JPanel
                             valoresInseridos++;
 
                             log.append("LOG: Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
-                            log.append(ProcessaArquivoController.montaDadosImpressao(ProcessaArquivoController.ap));
+                            log.append(ProcessaArquivoController.montaDadosImpressao());
                         }
                     }
                 }

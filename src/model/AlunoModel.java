@@ -31,6 +31,7 @@ public class AlunoModel {
         return dataNascimento;
     }
 
+    
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }

@@ -44,4 +44,32 @@ public class AlunoDAO {
         return lista;
     }
 
+    public void setAlunos(ArrayList<AlunoModel> ap) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.dd.mm");
+        try {
+            
+            String[] campos = new String[5], valores = new String[5];
+            Conexao connect = new Conexao();
+            campos[0] = "cpf";
+            campos[1] = "matricula";
+            campos[2] = "dataNascimento";
+            campos[3] = "nome";
+            campos[4] = "sexo";
+            
+            for (AlunoModel a : ap){
+                valores[0] = "'" + (a.getCpf().substring(0, 11)) + "'";
+                valores[1] = "" + a.getMatricula();
+                valores[2] =  dateFormat.format("" + a.getDataNascimento());
+                valores[3] = "'" +a.getNome() + "'" ;
+                valores[4] = (a.getSexo().equals("Fem.") ? "1" : (a.getSexo().equals("Masc.") ? "2" : "0"));
+                
+                connect.executarInsercao("Alunos", campos, valores);    
+            }
+            
+            
+        } catch (Exception e) {
+            
+        }
+    }
+
 }

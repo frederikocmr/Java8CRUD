@@ -21,7 +21,7 @@ public class DisciplinaDAO {
         try {
             Conexao connect = new Conexao();
             rs = connect.executarSelect("ALUNOS_DISCIPLINAS AD",
-                    "INNER JOIN DISCIPLINAS D ON AD.ID_DISCIPLINA = D.IDDISCIPLINAS WHERE AD.ID_ALUNO = " + idAluno);
+                    "LEFT JOIN DISCIPLINAS D ON AD.ID_DISCIPLINA = D.IDDISCIPLINAS WHERE AD.ID_ALUNO = " + idAluno);
             while (rs.next()) {
                 DisciplinaModel disciplina = new DisciplinaModel();
                 disciplina.setCodigo(rs.getString("codigo"));
