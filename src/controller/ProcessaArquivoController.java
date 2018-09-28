@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import model.AlunoModel;
 import model.DisciplinaModel;
+import persistence.AlunoDAO;
 
 /**
  *
@@ -64,6 +65,9 @@ public class ProcessaArquivoController {
     }
 
     public static String montaDadosImpressao(ArrayList<AlunoModel> alunos) {
+        AlunoDAO alunoDAO = new AlunoDAO();
+        alunos = alunoDAO.getTodosAlunos();
+        
         String impressao = "RELAÇÃO DE ALUNOS DE OUTROS PÓLOS DE ENSINO" + "\n\n";
         impressao += "Seq. - Matricula - Nome - CPF - Sexo - Dt. Nasc.\n\n";
         int numSeq = 0;
