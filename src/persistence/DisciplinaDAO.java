@@ -32,7 +32,7 @@ public class DisciplinaDAO {
         
         try {
             
-            String query = "SELECT * FROM ALUNO_DISCIPLINA AD"
+            String query = "SELECT DISTINCT CODIGO FROM ALUNO_DISCIPLINA AD"
                     + " LEFT JOIN DISCIPLINA D ON AD.CODIGO_DISCIPLINA = D.CODIGO"
                     + " WHERE AD.CPF_ALUNO = " + cpfAluno;
             

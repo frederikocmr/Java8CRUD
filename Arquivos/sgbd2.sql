@@ -1,30 +1,27 @@
 
 CREATE SCHEMA `sgbd2`;
 
-CREATE TABLE `sgbd2`.`alunos` (
-  `idalunos` INT NOT NULL,
-  `cpf` VARCHAR(11) NOT NULL,
-  `data_nascimento` DATE NOT NULL,
-  `matricula` INT(4) NOT NULL,
-  `nome` VARCHAR(25) NOT NULL,
-  `sexo` INT(1) NOT NULL,
-  PRIMARY KEY (`idalunos`, `cpf`, `matricula`));
+CREATE TABLE `aluno` (
+  `cpf` varchar(11) NOT NULL,
+  `nome` varchar(25) NOT NULL,
+  `matricula` int(4) NOT NULL,
+  `sexo` int(1) DEFAULT NULL,
+  `data_nascimento` date DEFAULT NULL,
+  PRIMARY KEY (`cpf`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
-CREATE TABLE `sgbd2`.`disciplinas` (
-  `iddisciplinas` INT NOT NULL,
-  `codigo` VARCHAR(7) NOT NULL,
-  PRIMARY KEY (`iddisciplinas`, `codigo`));
+CREATE TABLE `disciplina` (
+  `codigo` varchar(7) NOT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `sgbd2`.`alunos_disciplinas` (
-  `idalunos_disciplinas` INT NOT NULL,
-  `codigo_disciplina` VARCHAR(7) NOT NULL,
-  `matricula_aluno` INT(4) NOT NULL,
-  PRIMARY KEY (`idalunos_disciplinas`, `codigo_disciplina`, `matricula_aluno`));
-  
-  ALTER TABLE `sgbd2`.`alunos` 
-CHANGE COLUMN `matricula` `matricula` INT(4) UNSIGNED NOT NULL AFTER `cpf`,
-CHANGE COLUMN `idalunos` `idalunos` INT(11) NOT NULL AUTO_INCREMENT ;
-
-ALTER TABLE `sgbd2`.`alunos_disciplinas` 
-CHANGE COLUMN `idalunos_disciplinas` `idalunos_disciplinas` INT(11) NOT NULL AUTO_INCREMENT ,
-CHANGE COLUMN `matricula_aluno` `matricula_aluno` INT(4) UNSIGNED NOT NULL ;
+CREATE TABLE `aluno_disciplina` (
+  `idaluno_disciplina` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo_disciplina` varchar(7) DEFAULT NULL,
+  `cpf_aluno` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`idaluno_disciplina`),
+  KEY `pk_aluno_idx` (`cpf_aluno`),
+  KEY `pk_disciplina_idx` (`codigo_disciplina`),
+  CONSTRAINT `pk_aluno` FOREIGN KEY (`cpf_aluno`) REFERENCES `aluno` (`cpf`),
+  CONSTRAINT `pk_disciplina` FOREIGN KEY (`codigo_disciplina`) REFERENCES `disciplina` (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
