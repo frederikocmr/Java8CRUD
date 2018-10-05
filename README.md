@@ -10,5 +10,9 @@ Este projeto contém as seguintes funcionalidades:
 - Criador de sequencia com quantidade de dígitos inserida pelo usuário;
 - Interface - utilização dos componentes do Java Swing: JOptionPane, JScrollPane, JTextArea, JButton, JFileChooser e outros.
 
+Obs. O Projeto foi atualizado para satisfazer o uso de banco de dados, foi usado o MySQL e o Connector/J.
+A pasta contendo os arquivos do banco DDL pode ser encontrada em /Arquivos.
+
+
 Este projeto é destinado a processar informações de alunos de um polo de ensino cujo as informações serão enviadas através de arquivo texto, feito usando o Java 8 e a IDE NetBeans.
 
