@@ -11,19 +11,21 @@ import java.util.ArrayList;
 import model.AlunoModel;
 import model.DisciplinaModel;
 import persistence.AlunoDAO;
+import persistence.DisciplinaDAO;
 
 /**
  *
  * @author Frederiko Cesar
  */
-public class ProcessaArquivoController {
+public class ProcessaController {
     public static int  seqNumero, seqDigitos;
-    public static ArrayList<AlunoModel> ap;
     public static AlunoDAO alunoDAO;
+    public static DisciplinaDAO disciplinaDAO;
 
-    public static void leitura(BufferedReader bufferArquivo) {
+    public static String leitura(BufferedReader bufferArquivo) {
         alunoDAO = new AlunoDAO();
-        ap = new ArrayList();
+        disciplinaDAO = new DisciplinaDAO();
+        
         ValidadoresController validador = new ValidadoresController();
         String linhaArquivo = null;
         
@@ -45,26 +47,34 @@ public class ProcessaArquivoController {
                 aluno.setDataNascimento(data);
                 
                 String disciplinas = linhaArquivo.substring(49);
-                ArrayList<DisciplinaModel> ad = new ArrayList();
+                //ArrayList<DisciplinaModel> ad = new ArrayList();
+                
+                alunoDAO.setAluno(aluno);
                 
                 int posicao = 0;
                 while (posicao < disciplinas.length()) {
                     DisciplinaModel disciplina =  new DisciplinaModel();
-                    disciplina.setCodigo(disciplinas.substring(posicao, posicao+4));
+                    disciplina.setCodigo(disciplinas.substring(posicao, posicao+7));
                     
-                    ad.add(disciplina);
+                    //ad.add(disciplina);
+                    if (disciplina.getCodigo() != null){
+                      disciplinaDAO.setDisciplina(disciplina);
+                      disciplinaDAO.setDisciplinaAluno(disciplina.getCodigo(), aluno.getCpf());   
+                    }
+                    
+                    
                     posicao += 7;
                 }
-                aluno.setDisciplinas(ad);
-
-                ap.add(aluno);
+                //aluno.setDisciplinas(ad);
             }
+            
+            return "Sucesso na inserção no banco.";
 
         } catch (IOException ex) {
             System.out.println("Problemas ao ler: " + linhaArquivo);
+            return "Erro na inserção no banco: " + linhaArquivo;
         }
-        alunoDAO.setAlunos(ap);
-
+        
     }
 
     public static String montaDadosImpressao() {

@@ -4,7 +4,9 @@
  */
 package persistence;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,61 +17,62 @@ import model.AlunoModel;
  * @author frede
  */
 public class AlunoDAO {
+    private Conexao connect;
+    private Statement st;
+    private ResultSet rs;
+    private PreparedStatement ps; 
 
     public AlunoDAO() {
+        this.connect = new Conexao();
     }
 
     public ArrayList<AlunoModel> getTodosAlunos() {
         DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
         ArrayList<AlunoModel> lista = new ArrayList();
-        ResultSet rs;
+        DisciplinaDAO d = new DisciplinaDAO();
         try {
-            Conexao connect = new Conexao();
-            rs = connect.executarSelect("Alunos", "");
+            String query = "SELECT * FROM ALUNO";
+            st = connect.con.createStatement(); 
+            
+            rs = st.executeQuery(query);
+            
             while (rs.next()) {
                 AlunoModel aluno = new AlunoModel();
                 aluno.setSexo(rs.getString("sexo"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setMatricula(rs.getInt("matricula"));
-                aluno.setDataNascimento(dateFormat.format(rs.getDate("dataNascimento")));
-                aluno.setDisciplinas(DisciplinaDAO.getDisciplinasAluno(rs.getString("idalunos")));
+                aluno.setDataNascimento(dateFormat.format(rs.getDate("data_nascimento")));
+                aluno.setDisciplinas(d.getDisciplinasAluno(rs.getString("cpf")));
                 
                 lista.add(aluno);
             }
-        } catch (Exception e){
-            
+        } catch (Exception ex){
+            System.err.println("Erro na listagem Alunos: " + ex);      
         }
 
         return lista;
     }
 
-    public void setAlunos(ArrayList<AlunoModel> ap) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.dd.mm");
-        try {
-            
-            String[] campos = new String[5], valores = new String[5];
-            Conexao connect = new Conexao();
-            campos[0] = "cpf";
-            campos[1] = "matricula";
-            campos[2] = "dataNascimento";
-            campos[3] = "nome";
-            campos[4] = "sexo";
-            
-            for (AlunoModel a : ap){
-                valores[0] = "'" + (a.getCpf().substring(0, 11)) + "'";
-                valores[1] = "" + a.getMatricula();
-                valores[2] =  dateFormat.format("" + a.getDataNascimento());
-                valores[3] = "'" +a.getNome() + "'" ;
-                valores[4] = (a.getSexo().equals("Fem.") ? "1" : (a.getSexo().equals("Masc.") ? "2" : "0"));
-                
-                connect.executarInsercao("Alunos", campos, valores);    
-            }
-            
-            
-        } catch (Exception e) {
-            
+    public boolean setAluno(AlunoModel a) {
+        boolean retorno = false;
+        
+        try { 
+            ps = connect.con.prepareStatement("INSERT INTO ALUNO (cpf,matricula,nome,data_nascimento,sexo) VALUES (?,?,?,?,?)");
+            ps.setString(1, a.getCpf().substring(0, 11));
+            ps.setInt(2, a.getMatricula());
+            ps.setString(3, a.getNome());
+
+            ps.setDate(4, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(a.getDataNascimento()).getTime()));
+            ps.setString(5, (a.getSexo().equals("Fem.") ? "1" : (a.getSexo().equals("Masc.") ? "2" : "0")));
+
+            retorno = ps.execute(); 
+ 
+        } catch (Exception ex) {
+            System.err.println("Erro na inserção Aluno: " + ex);   
         }
+        
+        return retorno;
     }
 
 }

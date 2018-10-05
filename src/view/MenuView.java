@@ -4,7 +4,7 @@
  */
 package view;
 
-import controller.ProcessaArquivoController;
+import controller.ProcessaController;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -79,7 +79,7 @@ public class MenuView extends JPanel
 
                     String valorSeq = JOptionPane.showInputDialog("Escolha o valor inicial da sequência:");
                     if (Integer.parseInt(valorSeq) >= 1 && Integer.parseInt(valorSeq) <= 99) {
-                        ProcessaArquivoController.seqNumero = Integer.parseInt(valorSeq);
+                        ProcessaController.seqNumero = Integer.parseInt(valorSeq);
                     } else {
                         valorSeq = "";
                         JOptionPane.showMessageDialog(null, "Valor deve estar entre 1 e 99!");
@@ -93,7 +93,7 @@ public class MenuView extends JPanel
                         log.append("LOG: Valor inicial seq escolhida: " + valorSeq + "\n");
 
                         String qtdDigitos = JOptionPane.showInputDialog("Escolha a quantidade de digitos da sequência:");
-                        ProcessaArquivoController.seqDigitos = Integer.parseInt(qtdDigitos);
+                        ProcessaController.seqDigitos = Integer.parseInt(qtdDigitos);
 
                         if (qtdDigitos.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Nada foi inserido!");
@@ -101,7 +101,7 @@ public class MenuView extends JPanel
                             valoresInseridos++;
 
                             log.append("LOG: Quantidade de digitos escolhida: " + qtdDigitos + "\n\n");
-                            log.append(ProcessaArquivoController.montaDadosImpressao());
+                            log.append(ProcessaController.montaDadosImpressao());
                         }
                     }
                 }
@@ -121,7 +121,7 @@ public class MenuView extends JPanel
                     BufferedReader bufferArquivo = new BufferedReader(new FileReader(file));
 
                     log.append("LOG: Processando arquivo: \n" + file.getAbsolutePath() + "\n\n");
-                    ProcessaArquivoController.leitura(bufferArquivo);
+                    log.append("LOG:" + ProcessaController.leitura(bufferArquivo) + "\n\n");
                     log.append("LOG: Arquivo processado com sucesso. \n\n");
 
                 } catch (IOException ex) {
