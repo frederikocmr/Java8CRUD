@@ -9,6 +9,7 @@ Este projeto contém as seguintes funcionalidades:
 - Transformação de Strings de um nome em UPPERCASE para capitalização apenas das primeiras letras do nome;
 - Criador de sequencia com quantidade de dígitos inserida pelo usuário;
 - Interface - utilização dos componentes do Java Swing: JOptionPane, JScrollPane, JTextArea, JButton, JFileChooser e outros.
+- Banco de dados utilizando classe Conexão, e classes DAO.
 
 Obs. O Projeto foi atualizado para satisfazer o uso de banco de dados, foi usado o MySQL e o Connector/J.
 A pasta contendo os arquivos do banco DDL pode ser encontrada em /Arquivos.
