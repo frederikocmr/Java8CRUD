@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Frederiko Cesar 
+ * @author Frederiko Cesar
  */
 public class AlunoModel {
-    
+
     private String cpf;
     private String dataNascimento;
     private ArrayList<DisciplinaModel> disciplinas;
@@ -31,7 +31,6 @@ public class AlunoModel {
         return dataNascimento;
     }
 
-    
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }

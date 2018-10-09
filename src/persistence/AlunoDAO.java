@@ -17,10 +17,11 @@ import model.AlunoModel;
  * @author frede
  */
 public class AlunoDAO {
+
     private Conexao connect;
     private Statement st;
     private ResultSet rs;
-    private PreparedStatement ps; 
+    private PreparedStatement ps;
 
     public AlunoDAO() {
         this.connect = new Conexao();
@@ -32,10 +33,10 @@ public class AlunoDAO {
         DisciplinaDAO d = new DisciplinaDAO();
         try {
             String query = "SELECT * FROM ALUNO";
-            st = connect.con.createStatement(); 
-            
+            st = connect.con.createStatement();
+
             rs = st.executeQuery(query);
-            
+
             while (rs.next()) {
                 AlunoModel aluno = new AlunoModel();
                 aluno.setSexo(rs.getString("sexo"));
@@ -44,11 +45,11 @@ public class AlunoDAO {
                 aluno.setMatricula(rs.getInt("matricula"));
                 aluno.setDataNascimento(dateFormat.format(rs.getDate("data_nascimento")));
                 aluno.setDisciplinas(d.getDisciplinasAluno(rs.getString("cpf")));
-                
+
                 lista.add(aluno);
             }
-        } catch (Exception ex){
-            System.err.println("Erro na listagem Alunos: " + ex);      
+        } catch (Exception ex) {
+            System.err.println("Erro na listagem Alunos: " + ex);
         }
 
         return lista;
@@ -56,8 +57,8 @@ public class AlunoDAO {
 
     public boolean setAluno(AlunoModel a) {
         boolean retorno = false;
-        
-        try { 
+
+        try {
             ps = connect.con.prepareStatement("INSERT INTO ALUNO (cpf,matricula,nome,data_nascimento,sexo) VALUES (?,?,?,?,?)");
             ps.setString(1, a.getCpf().substring(0, 11));
             ps.setInt(2, a.getMatricula());
@@ -66,12 +67,12 @@ public class AlunoDAO {
             ps.setDate(4, new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(a.getDataNascimento()).getTime()));
             ps.setString(5, (a.getSexo().equals("Fem.") ? "1" : (a.getSexo().equals("Masc.") ? "2" : "0")));
 
-            retorno = ps.execute(); 
- 
+            retorno = ps.execute();
+
         } catch (Exception ex) {
-            System.err.println("Erro na inserção Aluno: " + ex);   
+            System.err.println("Erro na inserção Aluno: " + ex);
         }
-        
+
         return retorno;
     }
 

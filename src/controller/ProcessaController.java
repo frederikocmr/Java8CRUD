@@ -21,12 +21,13 @@ public class ProcessaController {
     public static int  seqNumero, seqDigitos;
     public static AlunoDAO alunoDAO;
     public static DisciplinaDAO disciplinaDAO;
+    public static ValidadoresController validador;
 
     public static String leitura(BufferedReader bufferArquivo) {
         alunoDAO = new AlunoDAO();
         disciplinaDAO = new DisciplinaDAO();
         
-        ValidadoresController validador = new ValidadoresController();
+        validador = new ValidadoresController();
         String linhaArquivo = null;
         
         try {
@@ -36,8 +37,8 @@ public class ProcessaController {
                 
                 int matricula = Integer.parseInt(linhaArquivo.substring(0, 4));
                 String nome = validador.validaNome(linhaArquivo.substring(4, 29).trim());
-                String cpf  = validador.validaCpf(linhaArquivo.substring(29,40));
-                String sexo = validador.validaSexo(linhaArquivo.substring(40, 41));
+                String cpf  = linhaArquivo.substring(29,40);
+                String sexo = linhaArquivo.substring(40, 41);
                 String data = validador.validaDataNasc(linhaArquivo.substring(41, 49));
                 
                 aluno.setMatricula(matricula);
@@ -47,7 +48,6 @@ public class ProcessaController {
                 aluno.setDataNascimento(data);
                 
                 String disciplinas = linhaArquivo.substring(49);
-                //ArrayList<DisciplinaModel> ad = new ArrayList();
                 
                 alunoDAO.setAluno(aluno);
                 
@@ -56,7 +56,6 @@ public class ProcessaController {
                     DisciplinaModel disciplina =  new DisciplinaModel();
                     disciplina.setCodigo(disciplinas.substring(posicao, posicao+7));
                     
-                    //ad.add(disciplina);
                     if (disciplina.getCodigo() != null){
                       disciplinaDAO.setDisciplina(disciplina);
                       disciplinaDAO.setDisciplinaAluno(disciplina.getCodigo(), aluno.getCpf());   
@@ -65,7 +64,6 @@ public class ProcessaController {
                     
                     posicao += 7;
                 }
-                //aluno.setDisciplinas(ad);
             }
             
             return "Sucesso na inserção no banco.";
@@ -78,6 +76,7 @@ public class ProcessaController {
     }
 
     public static String montaDadosImpressao() {
+        validador = new ValidadoresController();
         alunoDAO = new AlunoDAO();
         ArrayList<AlunoModel> alunos = alunoDAO.getTodosAlunos();
        
@@ -89,16 +88,16 @@ public class ProcessaController {
             impressao += verificaSequencia(seqNumero+numSeq);
             impressao += " - " + p.getMatricula();
             impressao += " - " + p.getNome();
-            impressao += " - " + p.getCpf();
-            impressao += " - " + p.getSexo();
+            impressao += " - " + validador.validaCpf(p.getCpf());
+            impressao += " - " + validador.validaSexo(p.getSexo());
             impressao += " - " + p.getDataNascimento();
             
             
             impressao += "\nDISCIPLINAS:";
             
             impressao = p.getDisciplinas().stream()
-                    .map((disciplina) -> " "+disciplina.getCodigo())
-                    .reduce(impressao, String::concat);
+                        .map((disciplina) -> " "+disciplina.getCodigo())
+                        .reduce(impressao, String::concat);
             
             impressao += "\n\n";
             numSeq++;
