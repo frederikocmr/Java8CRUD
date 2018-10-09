@@ -28,7 +28,7 @@ public class AlunoDAO {
     }
 
     public ArrayList<AlunoModel> getTodosAlunos() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<AlunoModel> lista = new ArrayList();
         DisciplinaDAO d = new DisciplinaDAO();
         try {
